@@ -474,9 +474,10 @@
     }
   }
 
+  // KODE BARU — tambahkan konversi toString() di awal
   function escapeHtml(str) {
-    if (!str) return '';
-    return str
+    if (str === null || str === undefined) return '';
+    return String(str)         // ← konversi apapun ke string dulu
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
