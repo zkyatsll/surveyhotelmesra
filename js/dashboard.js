@@ -56,7 +56,68 @@
 
   function init() {
     setCurrentDate();
+    injectErrorBanner();
     loadData();
+  }
+
+  // ── Error Banner ───────────────────────────────────────────
+  function injectErrorBanner() {
+    if (document.getElementById('fetchErrorBanner')) return;
+    const banner = document.createElement('div');
+    banner.id = 'fetchErrorBanner';
+    banner.style.cssText = [
+      'display:none',
+      'margin:16px 24px',
+      'padding:16px 20px',
+      'border-radius:12px',
+      'background:#FEF2F2',
+      'border:1.5px solid #FECACA',
+      'color:#991B1B',
+      'font-family:Poppins,sans-serif',
+      'font-size:0.88rem',
+      'line-height:1.6',
+      'box-shadow:0 2px 8px rgba(239,68,68,0.10)'
+    ].join(';');
+    banner.innerHTML = `
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span style="font-size:1.4rem;flex-shrink:0;">⚠️</span>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">Gagal memuat data dari Google Sheets</div>
+          <div id="fetchErrorDetail" style="color:#B91C1C;margin-bottom:10px;"></div>
+          <div style="background:#FEE2E2;border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:0.82rem;color:#7F1D1D;">
+            <b>Kemungkinan penyebab:</b>
+            <ul style="margin:6px 0 0 16px;padding:0;">
+              <li>Google Apps Script belum di-deploy atau URL sudah kadaluarsa</li>
+              <li>Pengaturan akses bukan <b>Anyone</b> (harus publik)</li>
+              <li>Browser memblokir request (CORS) dari GitHub Pages</li>
+            </ul>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button onclick="window.refreshData()" style="background:#DC2626;color:#fff;border:none;border-radius:8px;padding:7px 18px;font-family:Poppins,sans-serif;font-size:0.83rem;font-weight:600;cursor:pointer;">🔄 Coba Lagi</button>
+            <a href="https://script.google.com/home/projects" target="_blank" style="background:#fff;color:#DC2626;border:1.5px solid #FECACA;border-radius:8px;padding:7px 18px;font-family:Poppins,sans-serif;font-size:0.83rem;font-weight:600;cursor:pointer;text-decoration:none;">🔧 Buka Apps Script</a>
+            <button onclick="window.loadDemoFallback()" style="background:#f5f5f5;color:#555;border:1.5px solid #ddd;border-radius:8px;padding:7px 18px;font-family:Poppins,sans-serif;font-size:0.83rem;font-weight:600;cursor:pointer;">👁️ Tampilkan Data Demo</button>
+          </div>
+        </div>
+        <button onclick="document.getElementById('fetchErrorBanner').style.display='none'" style="background:none;border:none;font-size:1.2rem;color:#EF4444;cursor:pointer;flex-shrink:0;padding:0;">✕</button>
+      </div>
+    `;
+    // Sisipkan setelah header / sebelum konten utama
+    const main = document.querySelector('.main-content') || document.querySelector('main') || document.body;
+    main.insertBefore(banner, main.firstChild);
+  }
+
+  function showError(message) {
+    const banner = document.getElementById('fetchErrorBanner');
+    const detail = document.getElementById('fetchErrorDetail');
+    if (!banner || !detail) return;
+    detail.textContent = message;
+    banner.style.display = 'block';
+    banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function hideError() {
+    const banner = document.getElementById('fetchErrorBanner');
+    if (banner) banner.style.display = 'none';
   }
 
   function setCurrentDate() {
@@ -93,32 +154,71 @@
 
   async function loadData() {
     showLoading(true);
+    hideError();
 
     try {
       if (CONFIG.DEMO_MODE || !CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+        // Mode demo — sengaja pakai data dummy
         await sleep(800);
         allData = DEMO_DATA;
         renderDashboard(allData);
       } else {
-        const res  = await fetch(CONFIG.GOOGLE_SCRIPT_URL);
-        const json = await res.json();
+        // Fetch dari Google Sheets (dengan timeout 10 detik)
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+
+        let res;
+        try {
+          res = await fetch(CONFIG.GOOGLE_SCRIPT_URL, { signal: controller.signal });
+        } catch (fetchErr) {
+          clearTimeout(timeout);
+          if (fetchErr.name === 'AbortError') {
+            throw new Error('Request timeout (>10 detik). Periksa koneksi atau URL Apps Script.');
+          }
+          throw new Error(
+            'Tidak bisa terhubung ke Google Apps Script. ' +
+            'Kemungkinan CORS diblokir atau URL tidak valid. Detail: ' + fetchErr.message
+          );
+        }
+        clearTimeout(timeout);
+
+        if (!res.ok) {
+          throw new Error(`Server merespons dengan status HTTP ${res.status} (${res.statusText}).`);
+        }
+
+        let json;
+        try {
+          json = await res.json();
+        } catch {
+          throw new Error('Respons dari Apps Script bukan format JSON yang valid.');
+        }
 
         if (json.success) {
+          hideError();
           allData = json.data || [];
           renderDashboard(allData);
         } else {
-          throw new Error(json.message || 'Gagal memuat data');
+          throw new Error('Apps Script melaporkan error: ' + (json.message || 'Tidak ada keterangan.'));
         }
       }
     } catch (err) {
       console.error('Load error:', err);
-      // Fallback to demo data
-      allData = DEMO_DATA;
-      renderDashboard(allData);
+      // Tampilkan error banner — TIDAK fallback ke data dummy secara diam-diam
+      showError(err.message);
+      // Render tabel kosong agar halaman tidak blank
+      allData = [];
+      renderDashboard([]);
     } finally {
       showLoading(false);
     }
   }
+
+  // Tombol "Tampilkan Data Demo" di banner error
+  window.loadDemoFallback = function () {
+    hideError();
+    allData = DEMO_DATA;
+    renderDashboard(allData);
+  };
 
   // ── Render Dashboard ───────────────────────────────────────
   function renderDashboard(data) {
