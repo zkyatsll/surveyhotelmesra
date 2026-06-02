@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login – Hotel MESRA</title>
+  <meta name="description" content="Portal admin Hotel MESRA untuk mengakses dashboard survey kepuasan pelanggan.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="admin-page">
+
+  <!-- Background shapes -->
+  <div class="admin-bg">
+    <div class="admin-bg-shape"></div>
+    <div class="admin-bg-shape"></div>
+    <div class="admin-bg-shape"></div>
+  </div>
+
+  <!-- Login Card -->
+  <div class="login-card">
+
+    <!-- Logo -->
+    <div class="login-logo">
+      <div class="login-logo-icon">🏨</div>
+      <span class="login-hotel-name">MESRA</span>
+      <span class="login-subtitle">Hotel Management System</span>
+    </div>
+
+    <h2 class="login-title">Selamat Datang</h2>
+    <p class="login-desc">Masuk ke dashboard untuk melihat data survey pelanggan</p>
+
+    <!-- Form -->
+    <form id="loginForm" novalidate>
+
+      <div class="form-group">
+        <label class="form-label" for="username">Username</label>
+        <div class="input-group">
+          <span class="input-icon">👤</span>
+          <input
+            type="text"
+            id="username"
+            class="form-input input-with-icon"
+            placeholder="Masukkan username"
+            autocomplete="username"
+            required
+          >
+        </div>
+        <span class="error-msg" id="usernameError">Username tidak boleh kosong</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="input-group">
+          <span class="input-icon">🔒</span>
+          <input
+            type="password"
+            id="password"
+            class="form-input input-with-icon"
+            placeholder="Masukkan password"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+        <span class="error-msg" id="passwordError">Password tidak boleh kosong</span>
+      </div>
+
+      <div class="error-msg" id="loginError" style="font-size:0.85rem; padding: 10px 14px; background:#FEE2E2; border-radius:8px; margin-bottom:8px;">
+        Username atau password salah. Silakan coba lagi.
+      </div>
+
+      <button type="submit" class="btn btn-primary login-btn" id="loginBtn">
+        Masuk ke Dashboard
+      </button>
+
+    </form>
+
+    <div class="login-back">
+      <a href="index.html" style="color: var(--muted); display:flex; align-items:center; gap:6px; font-size:0.85rem;">
+        ← Kembali ke Halaman Survey
+      </a>
+    </div>
+
+    <div style="margin-top: 20px; padding: 12px 16px; background: var(--bg); border-radius: var(--radius); border: 1px dashed var(--border); font-size:0.78rem; color: var(--muted); text-align:center;">
+      <strong style="color:var(--primary)">Demo Credentials</strong><br>
+      Username: <code>admin</code> &nbsp;|&nbsp; Password: <code>hotel2024</code>
+    </div>
+
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

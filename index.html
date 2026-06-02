@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survey Kepuasan Pelanggan – Hotel MESRA</title>
+  <meta name="description" content="Bagikan pengalaman menginap Anda di Hotel MESRA. Survey singkat, hanya butuh 1 menit.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/survey.css">
+</head>
+<body>
+
+  <!-- Background decoration -->
+  <div class="bg-decoration">
+    <div class="bg-circle bg-circle-1"></div>
+    <div class="bg-circle bg-circle-2"></div>
+    <div class="bg-circle bg-circle-3"></div>
+  </div>
+
+  <div class="survey-wrapper">
+
+    <!-- ── Header ───────────────────────────────────────────────── -->
+    <header class="survey-header">
+      <div class="hotel-badge">
+        <span class="hotel-icon">🏨</span>
+        <span class="hotel-name">HOTEL MESRA</span>
+      </div>
+      <h1 class="survey-title">Survey Kepuasan Pelanggan</h1>
+      <p class="survey-subtitle">
+        Pendapat Anda sangat berarti bagi kami untuk terus<br>meningkatkan kualitas layanan
+      </p>
+    </header>
+
+    <!-- ── Survey Card ───────────────────────────────────────────── -->
+    <div class="survey-card">
+
+      <!-- Step Indicator -->
+      <div class="survey-step">
+        <div class="step-line"></div>
+        <div class="step active" id="sInd1">
+          <span class="step-number">1</span>
+          <span class="step-label">Rating</span>
+        </div>
+        <div class="step" id="sInd2">
+          <span class="step-number">2</span>
+          <span class="step-label">Komentar</span>
+        </div>
+        <div class="step" id="sInd3">
+          <span class="step-number">✓</span>
+          <span class="step-label">Selesai</span>
+        </div>
+      </div>
+
+      <form id="surveyForm" novalidate>
+
+        <!-- ── Step 1: Rating ──────────────────────────────────────── -->
+        <div class="form-section active" id="step1">
+          <h2 class="section-title">Bagaimana pengalaman menginap Anda?</h2>
+          <p class="section-subtitle">Ketuk emoji yang mewakili perasaan Anda 😊</p>
+
+          <div class="emoji-grid" id="emojiGrid" role="group" aria-label="Pilih Rating">
+            <button type="button" class="emoji-btn" data-value="1" data-label="Sangat Tidak Memuaskan" aria-label="Rating 1 – Sangat Tidak Memuaskan">
+              <div class="emoji-wrapper">
+                <span class="emoji" role="img" aria-hidden="true">😭</span>
+                <div class="emoji-ripple"></div>
+              </div>
+              <span class="emoji-label">Sangat Tidak<br>Memuaskan</span>
+              <div class="emoji-score">1</div>
+            </button>
+
+            <button type="button" class="emoji-btn" data-value="2" data-label="Kurang Memuaskan" aria-label="Rating 2 – Kurang Memuaskan">
+              <div class="emoji-wrapper">
+                <span class="emoji" role="img" aria-hidden="true">😕</span>
+                <div class="emoji-ripple"></div>
+              </div>
+              <span class="emoji-label">Kurang<br>Memuaskan</span>
+              <div class="emoji-score">2</div>
+            </button>
+
+            <button type="button" class="emoji-btn" data-value="3" data-label="Memuaskan" aria-label="Rating 3 – Memuaskan">
+              <div class="emoji-wrapper">
+                <span class="emoji" role="img" aria-hidden="true">😊</span>
+                <div class="emoji-ripple"></div>
+              </div>
+              <span class="emoji-label">Memuaskan</span>
+              <div class="emoji-score">3</div>
+            </button>
+
+            <button type="button" class="emoji-btn" data-value="4" data-label="Baik" aria-label="Rating 4 – Baik">
+              <div class="emoji-wrapper">
+                <span class="emoji" role="img" aria-hidden="true">😄</span>
+                <div class="emoji-ripple"></div>
+              </div>
+              <span class="emoji-label">Baik</span>
+              <div class="emoji-score">4</div>
+            </button>
+
+            <button type="button" class="emoji-btn" data-value="5" data-label="Cemerlang" aria-label="Rating 5 – Cemerlang">
+              <div class="emoji-wrapper">
+                <span class="emoji" role="img" aria-hidden="true">🤩</span>
+                <div class="emoji-ripple"></div>
+              </div>
+              <span class="emoji-label">Cemerlang</span>
+              <div class="emoji-score">5</div>
+            </button>
+          </div>
+
+          <!-- Rating progress bar -->
+          <div class="rating-bar-container">
+            <div class="rating-bar">
+              <div class="rating-fill" id="ratingFill"></div>
+            </div>
+            <span class="rating-text" id="ratingText">Pilih rating Anda</span>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-next" id="nextBtn" disabled>
+            Lanjutkan <span class="btn-arrow">→</span>
+          </button>
+        </div>
+
+        <!-- ── Step 2: Comment ─────────────────────────────────────── -->
+        <div class="form-section" id="step2">
+
+          <div class="selected-rating-display" id="selectedRatingDisplay">
+            <!-- Populated by JS -->
+          </div>
+
+          <h2 class="section-title">Lengkapi Detail Anda</h2>
+          <p class="section-subtitle">Semua kolom bersifat opsional, namun sangat membantu kami 🙏</p>
+
+          <!-- Nomor Kamar -->
+          <div class="room-input-group">
+            <label class="room-input-label" for="nomorKamarInput">
+              <span class="room-label-icon">🔑</span>
+              Nomor Kamar
+              <span class="room-label-optional">(opsional)</span>
+            </label>
+            <div class="room-input-wrapper">
+              <span class="room-input-icon">🏠</span>
+              <input
+                type="text"
+                id="nomorKamarInput"
+                class="form-input room-input"
+                placeholder=""
+                maxlength="10"
+                aria-label="Nomor kamar"
+                inputmode="numeric"
+              >
+            </div>
+          </div>
+
+          <!-- Komentar -->
+          <div class="room-input-label" style="margin-bottom: 8px;">
+            <span class="room-label-icon">💬</span>
+            Komentar / Feedback
+            <span class="room-label-optional">(opsional)</span>
+          </div>
+          <div class="textarea-wrapper">
+            <textarea
+              id="komentarInput"
+              class="komentar-input"
+              placeholder="Ceritakan pengalaman Anda di Hotel MESRA... (opsional)"
+              rows="4"
+              maxlength="500"
+              aria-label="Komentar atau masukan"
+            ></textarea>
+            <div class="char-counter"><span id="charCount">0</span>/500</div>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline btn-back" id="backBtn">
+              ← Kembali
+            </button>
+            <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">
+              Kirim Review ✨
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="survey-footer">
+      <p>© 2024 Hotel MESRA &nbsp;·&nbsp; <a href="admin.html">Admin Login</a></p>
+    </footer>
+
+  </div><!-- /.survey-wrapper -->
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="js/config.js?v=3"></script>
+  <script src="js/survey.js?v=3"></script>
+</body>
+</html>

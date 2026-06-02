@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Survey – Hotel MESRA</title>
+  <meta name="description" content="Scan QR code untuk mengisi survey kepuasan pelanggan Hotel MESRA.">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background: linear-gradient(160deg, #FAF8F5 0%, #F0EBE3 60%, #E8D5C4 100%);
+      font-family: var(--font);
+    }
+
+    .qr-card {
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: 48px 40px;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--border-light);
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInScale 0.5s ease both;
+    }
+
+    .qr-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-dark), var(--primary-light), var(--accent));
+    }
+
+    .qr-hotel-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-50);
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--primary-100);
+      margin-bottom: 20px;
+    }
+
+    .qr-hotel-name {
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: var(--primary);
+      text-transform: uppercase;
+    }
+
+    .qr-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .qr-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .qr-container {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      border: 2px solid var(--border);
+      display: inline-block;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .qr-container canvas,
+    .qr-container img {
+      display: block;
+    }
+
+    /* Corner decorations */
+    .qr-corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--primary);
+      border-style: solid;
+    }
+    .qr-corner-tl { top: 8px; left: 8px; border-width: 3px 0 0 3px; }
+    .qr-corner-tr { top: 8px; right: 8px; border-width: 3px 3px 0 0; }
+    .qr-corner-bl { bottom: 8px; left: 8px; border-width: 0 0 3px 3px; }
+    .qr-corner-br { bottom: 8px; right: 8px; border-width: 0 3px 3px 0; }
+
+    .qr-url {
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--bg);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      word-break: break-all;
+    }
+
+    .qr-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .qr-steps {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .qr-steps-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .qr-step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .qr-step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .qr-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .qr-step-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .url-input-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .url-input-group input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font);
+      font-size: 0.85rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .url-input-group input:focus {
+      border-color: var(--primary);
+    }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .qr-actions, .url-input-group, .qr-steps { display: none; }
+      .qr-card { box-shadow: none; border: 1px solid #ccc; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="qr-card">
+
+    <div class="qr-hotel-badge">
+      <span>🏨</span>
+      <span class="qr-hotel-name">HOTEL MESRA</span>
+    </div>
+
+    <h1 class="qr-title">QR Code Survey</h1>
+    <p class="qr-desc">
+      Scan QR di bawah untuk mengisi<br>
+      survey kepuasan pelanggan
+    </p>
+
+    <!-- URL Input -->
+    <div class="url-input-group">
+      <input type="text" id="surveyUrl" placeholder="https://..." value="">
+      <button class="btn btn-primary btn-sm" onclick="generateQR()">Generate</button>
+    </div>
+
+    <!-- QR Code Container -->
+    <div class="qr-container" id="qrContainer">
+      <div class="qr-corner qr-corner-tl"></div>
+      <div class="qr-corner qr-corner-tr"></div>
+      <div class="qr-corner qr-corner-bl"></div>
+      <div class="qr-corner qr-corner-br"></div>
+      <div id="qrCode"></div>
+    </div>
+
+    <div class="qr-url" id="qrUrlDisplay">–</div>
+
+    <div class="qr-actions">
+      <button class="btn btn-primary btn-sm" onclick="downloadQR()">⬇ Download QR</button>
+      <button class="btn btn-outline btn-sm" onclick="window.print()">🖨 Cetak</button>
+      <button class="btn btn-outline btn-sm" onclick="copyUrl()">📋 Salin URL</button>
+    </div>
+
+    <div class="qr-steps">
+      <div class="qr-steps-title">Cara Penggunaan</div>
+      <div class="qr-step-list">
+        <div class="qr-step-item">
+          <div class="qr-step-num">1</div>
+          <div class="qr-step-text">Download atau cetak QR code ini</div>
+        </div>
+        <div class="qr-step-item">
+          <div class="qr-step-num">2</div>
+          <div class="qr-step-text">Pasang di area lobby, kamar, atau meja resepsionis</div>
+        </div>
+        <div class="qr-step-item">
+          <div class="qr-step-num">3</div>
+          <div class="qr-step-text">Pelanggan scan QR dengan kamera HP → langsung ke form survey</div>
+        </div>
+        <div class="qr-step-item">
+          <div class="qr-step-num">4</div>
+          <div class="qr-step-text">Data masuk otomatis ke Google Sheets & dashboard admin</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    let qrInstance = null;
+
+    function getDefaultUrl() {
+      const protocol = location.protocol;
+      const host = location.host;
+      const path = location.pathname.replace('assets/qr.html', '');
+      return `${protocol}//${host}${path}index.html`;
+    }
+
+    function generateQR() {
+      const url = document.getElementById('surveyUrl').value.trim() || getDefaultUrl();
+      document.getElementById('qrUrlDisplay').textContent = url;
+
+      const container = document.getElementById('qrCode');
+      container.innerHTML = '';
+
+      qrInstance = new QRCode(container, {
+        text: url,
+        width: 220,
+        height: 220,
+        colorDark: '#4A2C14',
+        colorLight: '#FFFFFF',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    function downloadQR() {
+      const canvas = document.querySelector('#qrCode canvas');
+      if (!canvas) { alert('Generate QR terlebih dahulu!'); return; }
+
+      const link = document.createElement('a');
+      link.download = 'QR-HotelMESRA-Survey.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function copyUrl() {
+      const url = document.getElementById('surveyUrl').value.trim() || getDefaultUrl();
+      navigator.clipboard.writeText(url).then(() => {
+        alert('URL berhasil disalin!');
+      });
+    }
+
+    // Init on load
+    window.addEventListener('load', () => {
+      document.getElementById('surveyUrl').value = getDefaultUrl();
+      generateQR();
+    });
+  </script>
+</body>
+</html>
