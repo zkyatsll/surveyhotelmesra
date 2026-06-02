@@ -147,7 +147,8 @@
     if (!selectedRating) return;
 
     const komentar    = komentarInput.value.trim();
-    const nomorKamar  = nomorKamarInput ? nomorKamarInput.value.trim() : '';
+    const nomorKamarRaw = nomorKamarInput ? nomorKamarInput.value.trim() : '';
+    const nomorKamar    = nomorKamarRaw.replace(/\D/g, ''); // hapus semua non-angka
 
     // Loading state
     submitBtn.disabled = true;
