@@ -204,6 +204,14 @@
   flex-shrink: 0;
 }
 
+/* TAMBAHKAN KODE INI */
+.custom-logo {
+  width: 40px; 
+  height: 40px;
+  object-fit: contain;
+  display: block;
+}
+
 .sidebar-hotel-name {
   font-size: 1rem;
   font-weight: 800;
