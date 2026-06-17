@@ -53,7 +53,7 @@
   position: relative;
   z-index: 1;
   animation: fadeInScale 0.5s ease both;
-  overflow: hidden;                      /* ← kunci: clip garis agar pas */
+  overflow: hidden;
 }
 
 .login-card::before {
@@ -64,7 +64,7 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, var(--primary-dark), var(--primary-light), var(--accent));
-  border-radius: 0;                      /* ← tidak perlu radius, overflow:hidden yg mengkliping */
+  border-radius: 0;
 }
 
 .login-logo {
@@ -207,7 +207,6 @@
   flex-shrink: 0;
 }
 
-/* TAMBAHKAN KODE INI */
 .custom-logo {
   width: 40px; 
   height: 40px;
@@ -360,37 +359,25 @@
   border: 1px solid var(--border);
 }
 
-
 .admin-avatar {
-  /* Pastikan ukuran wadah profil tetap kecil */
   width: 36px !important;
   height: 36px !important;
   border-radius: 50% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  
-  /* Sembunyikan elemen gambar yang tumpah keluar dari wadah bulat */
   overflow: hidden !important; 
-  
-  /* Berikan sedikit jarak di dalamnya agar logo melayang rapi */
   padding: 3px !important; 
 }
 
-/* 2. Atur Gambar Logo (PNG Besar tadi) agar MENGECEIL */
 .admin-avatar-img {
-  /* Paksa gambar mengecil 100% mengikuti ukuran wadah profil */
   width: 100% !important;
   height: 100% !important;
-  
-  /* Memastikan logo terlihat utuh, tidak gepeng, dan centered di dalam lingkaran */
   object-fit: contain !important;
-  
   display: block !important;
-  
-  /* Hilangkan border-radius agar object-fit: contain bekerja sempurna */
   border-radius: 0 !important; 
 }
+
 /* ── Content Area ────────────────────────────────────────────── */
 .content-area {
   flex: 1;
