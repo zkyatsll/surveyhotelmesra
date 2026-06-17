@@ -79,6 +79,13 @@
   font-size: 1.4rem;
 }
 
+.custom-logo {
+  width: 35px; /* Sesuaikan ukuran jika perlu */
+  height: 35px;
+  object-fit: contain;
+  display: block;
+}
+
 .hotel-name {
   font-size: 1rem;
   font-weight: 800;
