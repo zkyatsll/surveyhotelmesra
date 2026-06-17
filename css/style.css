@@ -196,13 +196,30 @@ p { color:var(--text-secondary); }
   from { background-position:-200% 0; }
   to   { background-position:200% 0; }
 }
-
 /* ── SweetAlert2 Custom ──────────────────────────────────────── */
+/* Fix: pastikan overlay SweetAlert menutupi seluruh halaman     */
+/* termasuk elemen yang punya CSS transform (stacking context)   */
+.swal2-container {
+  z-index: 99999 !important;
+  position: fixed !important;
+  inset: 0 !important;                  /* top/right/bottom/left = 0 */
+}
+.swal2-backdrop-show {
+  background: rgba(107, 66, 38, 0.55) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+/* Sembunyikan scroll saat popup terbuka */
+body.swal2-shown {
+  overflow: hidden !important;
+}
 .swal2-popup {
   border-radius: var(--radius-xl) !important;
   font-family: var(--font) !important;
   border: 1px solid var(--border-light) !important;
-  overflow: hidden !important;
+  box-shadow: 0 25px 80px rgba(107,66,38,0.30) !important;
+  position: relative !important;
+  z-index: 100000 !important;
 }
 .swal2-title {
   font-family: var(--font) !important;
@@ -221,7 +238,7 @@ p { color:var(--text-secondary); }
   padding: 12px 32px !important;
   box-shadow: 0 4px 15px rgba(107,66,38,0.35) !important;
 }
-.swal2-timer-progress-bar { background: var(--primary) !important; height: 6px !important; }
+.swal2-timer-progress-bar { background: var(--primary) !important; }
 
 /* ── Utilities ──────────────────────────────────────────────── */
 .text-center  { text-align:center; }
