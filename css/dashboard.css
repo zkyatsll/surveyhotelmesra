@@ -53,15 +53,18 @@
   position: relative;
   z-index: 1;
   animation: fadeInScale 0.5s ease both;
+  overflow: hidden;                      /* ← kunci: clip garis agar pas */
 }
 
 .login-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 5px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
   background: linear-gradient(90deg, var(--primary-dark), var(--primary-light), var(--accent));
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-radius: 0;                      /* ← tidak perlu radius, overflow:hidden yg mengkliping */
 }
 
 .login-logo {
