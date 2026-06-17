@@ -24,7 +24,7 @@ const CONFIG = {
   // 📋 URL Google Spreadsheet (untuk portal langsung ke sheet)
   // Cara dapat URL: buka Google Sheets Anda → copy URL dari address bar browser
   // Contoh: 'https://docs.google.com/spreadsheets/d/1xxxxx.../edit'
-  SPREADSHEET_URL: 'https://docs.google.com/spreadsheets/d/1-n3K_3oeHQDjRvxlJ-uyLyAR7P5kRQRWovHZx8H5w0/edit',
+  SPREADSHEET_URL: 'https://docs.google.com/spreadsheets/d/1-n3K_3oeHQDjRvxLj-uyLyAR7PSkBQBWovHZx8HSvv0/edit?usp=sharing',
 
   // 🏨 Informasi Hotel
   HOTEL_NAME: 'Hotel MESRA',
