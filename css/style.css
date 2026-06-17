@@ -202,6 +202,7 @@ p { color:var(--text-secondary); }
   border-radius: var(--radius-xl) !important;
   font-family: var(--font) !important;
   border: 1px solid var(--border-light) !important;
+  overflow: hidden !important;
 }
 .swal2-title {
   font-family: var(--font) !important;
@@ -220,7 +221,7 @@ p { color:var(--text-secondary); }
   padding: 12px 32px !important;
   box-shadow: 0 4px 15px rgba(107,66,38,0.35) !important;
 }
-.swal2-timer-progress-bar { background: var(--primary) !important; }
+.swal2-timer-progress-bar { background: var(--primary) !important; height: 6px !important; }
 
 /* ── Utilities ──────────────────────────────────────────────── */
 .text-center  { text-align:center; }
