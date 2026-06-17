@@ -18,9 +18,13 @@
  */
 
 const CONFIG = {
-  // 🔗 Ganti dengan URL Google Apps Script Web App Anda
-  // Contoh: 'https://script.google.com/macros/s/AKfycbzQzX_GVp2e6VG4U7X9xd_6YXJhJDk0Nb-Kjo_uVkCBiUpdQ8Xcw2n1802p0CYz8BCU/exec'
+  // 🔗 URL Google Apps Script Web App (untuk simpan & ambil data)
   GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzQzX_GVp2e6VG4U7X9xd_6YXJhJDk0Nb-Kjo_uVkCBiUpdQ8Xcw2n1802p0CYz8BCU/exec',
+
+  // 📋 URL Google Spreadsheet (untuk portal langsung ke sheet)
+  // Cara dapat URL: buka Google Sheets Anda → copy URL dari address bar browser
+  // Contoh: 'https://docs.google.com/spreadsheets/d/1xxxxx.../edit'
+  SPREADSHEET_URL: 'https://docs.google.com/spreadsheets/d/1-n3K_3oeHQDjRvxlJ-uyLyAR7P5kRQRWovHZx8H5w0/edit',
 
   // 🏨 Informasi Hotel
   HOTEL_NAME: 'Hotel MESRA',
