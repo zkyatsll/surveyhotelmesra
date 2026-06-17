@@ -27,8 +27,8 @@ const CONFIG = {
   HOTEL_TAGLINE: 'Tempat Tinggal Terbaik Anda',
 
   // 🔐 Admin Credentials (ubah sesuai kebutuhan)
-  ADMIN_USERNAME: 'admin',
-  ADMIN_PASSWORD: 'hotel2024',
+  ADMIN_USERNAME: 'ITMesra',
+  ADMIN_PASSWORD: 'mesra123',
 
   // ⏱️ Session duration (dalam milidetik) - default 8 jam
   SESSION_DURATION: 8 * 60 * 60 * 1000,
