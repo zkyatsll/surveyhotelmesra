@@ -110,6 +110,7 @@
 
         <!-- Stat Cards -->
         <div class="stats-grid">
+          <!-- row 1 -->
           <div class="stat-card stat-card-1">
             <div class="stat-icon stat-icon-1">👥</div>
             <div class="stat-value" id="statTotal">–</div>
@@ -128,11 +129,33 @@
             <div class="stat-label">Tingkat Kepuasan</div>
             <div class="stat-trend" id="statSatisfiedTrend"></div>
           </div>
+          <!-- row 2 -->
           <div class="stat-card stat-card-4">
             <div class="stat-icon stat-icon-4">💬</div>
             <div class="stat-value" id="statComments">–</div>
             <div class="stat-label">Total Komentar</div>
             <div class="stat-trend trend-neu" id="statCommentsTrend"></div>
+          </div>
+           <div class="stat-card stat-card-5">
+            <div class="stat-icon stat-icon-5">🎯</div>
+            <div class="stat-value" id="statNPS">–</div>
+            <div class="stat-label">Net Promoter Score</div>
+            <div class="stat-trend" id="statNPSTrend"></div>
+            <div class="nps-scale">
+              <span class="nps-zone nps-bad">Buruk<br>&lt;0</span>
+              <span class="nps-zone nps-ok">Cukup<br>0–30</span>
+              <span class="nps-zone nps-good">Baik<br>30–70</span>
+              <span class="nps-zone nps-great">Hebat<br>&gt;70</span>
+            </div>
+          </div>
+          <div class="stat-card stat-card-6">
+            <div class="stat-icon stat-icon-6">⚠️</div>
+            <div class="stat-value" id="statCritical">–</div>
+            <div class="stat-label">Critical Complaint Rate</div>
+            <div class="stat-trend" id="statCriticalTrend"></div>
+            <div style="font-size:0.7rem; color:var(--muted); margin-top:6px;">
+              Tamu dengan rating 1–2
+            </div>
           </div>
         </div>
 
