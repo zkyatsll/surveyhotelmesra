@@ -12,9 +12,6 @@
 
 <div class="dashboard-layout">
 
-  <!-- ══════════════════════════════════════════════════════════
-       SIDEBAR
-  ══════════════════════════════════════════════════════════ -->
   <aside class="sidebar" id="sidebar">
 
     <div class="sidebar-header">
@@ -78,12 +75,8 @@
 
   </aside>
 
-  <!-- ══════════════════════════════════════════════════════════
-       MAIN CONTENT
-  ══════════════════════════════════════════════════════════ -->
   <main class="main-content">
 
-    <!-- Top Bar -->
     <div class="topbar">
       <div class="topbar-title">
         <h1 id="pageTitle">Overview</h1>
@@ -102,13 +95,10 @@
       </div>
     </div>
 
-    <!-- Content Area -->
     <div class="content-area">
 
-      <!-- ─── TAB: OVERVIEW ───────────────────────────────────── -->
       <div class="tab-panel active" id="tabOverview">
 
-        <!-- Stat Cards -->
         <div class="stats-grid">
           <div class="stat-card stat-card-1">
             <div class="stat-icon stat-icon-1">👥</div>
@@ -134,12 +124,32 @@
             <div class="stat-label">Total Komentar</div>
             <div class="stat-trend trend-neu" id="statCommentsTrend"></div>
           </div>
+          
+          <div class="stat-card stat-card-5">
+            <div class="stat-icon stat-icon-5">🎯</div>
+            <div class="stat-value" id="statNPS">–</div>
+            <div class="stat-label">Net Promoter Score</div>
+            <div class="stat-trend" id="statNPSTrend"></div>
+            <div class="nps-scale">
+              <span class="nps-zone nps-bad">Buruk<br>&lt;0</span>
+              <span class="nps-zone nps-ok">Cukup<br>0–30</span>
+              <span class="nps-zone nps-good">Baik<br>30–70</span>
+              <span class="nps-zone nps-great">Hebat<br>&gt;70</span>
+            </div>
+          </div>
+          <div class="stat-card stat-card-6">
+            <div class="stat-icon stat-icon-6">⚠️</div>
+            <div class="stat-value" id="statCritical">–</div>
+            <div class="stat-label">Critical Complaint Rate</div>
+            <div class="stat-trend" id="statCriticalTrend"></div>
+            <div style="font-size:0.7rem; color:var(--muted); margin-top:6px;">
+              Tamu dengan rating 1–2
+            </div>
+          </div>
         </div>
 
-        <!-- Charts Grid -->
         <div class="chart-grid">
 
-          <!-- Donut Chart -->
           <div class="chart-card">
             <div class="chart-header">
               <div>
@@ -150,11 +160,9 @@
             <div class="chart-container">
               <canvas id="donutChart" width="200" height="200"></canvas>
             </div>
-            <!-- Legend -->
             <div id="donutLegend" style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center;"></div>
           </div>
 
-          <!-- Bar Distribution -->
           <div class="chart-card">
             <div class="chart-header">
               <div>
@@ -163,31 +171,22 @@
               </div>
             </div>
             <div class="rating-dist-list" id="ratingDistList">
-              <!-- Populated by JS -->
-            </div>
+              </div>
           </div>
 
-        </div><!-- /.chart-grid -->
-
-        <!-- Latest Comments -->
-        <div class="comments-section">
+        </div><div class="comments-section">
           <div class="section-header">
             <div class="section-title-lg">💬 Komentar Terbaru</div>
             <button class="btn btn-outline btn-sm" onclick="switchTab('data')">Lihat Semua →</button>
           </div>
           <div class="comments-list" id="latestComments">
-            <!-- Populated by JS -->
-          </div>
+            </div>
         </div>
 
-      </div><!-- /#tabOverview -->
-
-      <!-- ─── TAB: DATA SURVEY ─────────────────────────────────── -->
-      <div class="tab-panel" id="tabData">
+      </div><div class="tab-panel" id="tabData">
 
         <div class="table-section">
 
-          <!-- Toolbar -->
           <div class="table-toolbar">
             <div class="table-search">
               <span>🔍</span>
@@ -206,7 +205,6 @@
             </div>
           </div>
 
-          <!-- Table -->
           <div class="table-wrapper">
             <table class="data-table" id="dataTable">
               <thead>
@@ -221,12 +219,10 @@
                 </tr>
               </thead>
               <tbody id="tableBody">
-                <!-- Populated by JS -->
-              </tbody>
+                </tbody>
             </table>
           </div>
 
-          <!-- Pagination -->
           <div class="table-pagination">
             <span class="pagination-info" id="paginationInfo">–</span>
             <div class="pagination-btns" id="paginationBtns"></div>
@@ -234,14 +230,8 @@
 
         </div>
 
-      </div><!-- /#tabData -->
-
-    </div><!-- /.content-area -->
-  </main>
-</div><!-- /.dashboard-layout -->
-
-<!-- Loading Overlay -->
-<div class="loading-overlay" id="loadingOverlay">
+      </div></div></main>
+</div><div class="loading-overlay" id="loadingOverlay">
   <div style="text-align:center;">
     <div class="loading-spinner" style="margin: 0 auto 16px;"></div>
     <p style="color: var(--muted); font-size:0.9rem;">Memuat data...</p>
@@ -249,7 +239,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="js/config.js?v=2"></script>
-<script src="js/dashboard.js?v=2"></script>
+<script src="js/config.js?v=5"></script>
+<script src="js/dashboard.js?v=5"></script>
 </body>
 </html>
