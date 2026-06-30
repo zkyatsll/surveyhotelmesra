@@ -240,11 +240,6 @@
 
   // ── Stat Cards ──────────────────────────────────────────────
   function renderStats(data) {
-    const total      = data.length;
-    const sumRating  = data.reduce((s, d) => s + (d.rating || 0), 0);
-    const avgRating  = total > 0 ? (sumRating / total) : 0;
-    const satisfied  = data.filter(d => d.rating >= 4).length;
-    const satRate    = total > 0 ? ((satisfied / total) * 100) : 0;
     const total       = data.length;
     const sumRating   = data.reduce((s, d) => s + (d.rating || 0), 0);
     const avgRating   = total > 0 ? (sumRating / total) : 0;
