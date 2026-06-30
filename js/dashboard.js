@@ -245,18 +245,106 @@
     const avgRating  = total > 0 ? (sumRating / total) : 0;
     const satisfied  = data.filter(d => d.rating >= 4).length;
     const satRate    = total > 0 ? ((satisfied / total) * 100) : 0;
+    const total       = data.length;
+    const sumRating   = data.reduce((s, d) => s + (d.rating || 0), 0);
+    const avgRating   = total > 0 ? (sumRating / total) : 0;
+    const satisfied   = data.filter(d => d.rating >= 4).length;
+    const satRate     = total > 0 ? ((satisfied / total) * 100) : 0;
     const withComment = data.filter(d => d.komentar && d.komentar.trim()).length;
-
     // Animate counter
     animateCounter('statTotal',    0, total,    0, '');
     animateCounter('statAvg',      0, avgRating, 1, '');
     animateCounter('statSatisfied',0, satRate,   1, '%');
     animateCounter('statComments', 0, withComment, 0, '');
-
+    // ── NPS ──────────────────────────────────────────────────
+    const promoters  = data.filter(d => d.rating === 5).length;
+    const detractors = data.filter(d => d.rating <= 2).length;
+    const nps        = total > 0
+      ? Math.round(((promoters / total) - (detractors / total)) * 100)
+      : 0;
     // Trends (mock)
     setTrend('statAvgTrend',       avgRating >= 4 ? 'up' : 'neu', avgRating >= 4 ? '↑ Sangat baik' : '→ Perlu perhatian');
     setTrend('statSatisfiedTrend', satRate >= 70   ? 'up' : 'neu', satRate >= 70  ? '↑ Target tercapai' : '→ Masih berkembang');
+    // ── Critical Complaint Rate ───────────────────────────────
+    const criticalCount = data.filter(d => d.rating <= 2).length;
+    const criticalRate  = total > 0 ? ((criticalCount / total) * 100) : 0;
+    // ── Animate counters ──────────────────────────────────────
+    animateCounter('statTotal',    0, total,        0, '');
+    animateCounter('statAvg',      0, avgRating,    1, '');
+    animateCounter('statSatisfied',0, satRate,      1, '%');
+    animateCounter('statComments', 0, withComment,  0, '');
+    animateCounter('statCritical', 0, criticalRate, 1, '%');
+    // NPS — counter khusus (bisa negatif, pakai prefix +/-)
+    animateNPS(nps);
+    // ── Trends ────────────────────────────────────────────────
+    setTrend('statAvgTrend',
+      avgRating >= 4 ? 'up' : 'neu',
+      avgRating >= 4 ? '↑ Sangat baik' : '→ Perlu perhatian');
+    setTrend('statSatisfiedTrend',
+      satRate >= 70 ? 'up' : 'neu',
+      satRate >= 70 ? '↑ Target tercapai' : '→ Masih berkembang');
+    // NPS trend berdasarkan zona
+    const npsTrend = nps >= 70 ? ['up',   '🏆 Hebat (≥70)']
+                   : nps >= 30 ? ['up',   '✅ Baik (30–70)']
+                   : nps >= 0  ? ['neu',  '→ Cukup (0–30)']
+                                : ['down', '⚠️ Perlu perhatian'];
+    setTrend('statNPSTrend', npsTrend[0], npsTrend[1]);
+    // Highlight zona NPS yang aktif
+    highlightNPSZone(nps);
+    // Critical trend berdasarkan ambang batas
+    const critTrend = criticalRate <= 5  ? ['up',   '✅ Sangat rendah']
+                    : criticalRate <= 15 ? ['neu',  '→ Perlu dipantau']
+                                         : ['down', '⚠️ Tinggi – segera tindak'];
+    setTrend('statCriticalTrend', critTrend[0], critTrend[1]);
   }
+  // Animasi NPS khusus (tampilkan tanda +/-)
+  function animateNPS(targetNPS) {
+    const el = document.getElementById('statNPS');
+    if (!el) return;
+    const duration = 1200;
+    const start    = performance.now();
+    function update(now) {
+      const elapsed  = Math.min(now - start, duration);
+      const progress = elapsed / duration;
+      const eased    = 1 - (1 - progress) * (1 - progress);
+      const val      = Math.round(targetNPS * eased);
+      const prefix   = val > 0 ? '+' : '';
+      el.textContent = prefix + val;
+      // Warna nilai NPS
+      el.style.color = val >= 30 ? '#16A34A'
+                      : val >= 0  ? '#CA8A04'
+                                  : '#DC2626';
+      if (elapsed < duration) requestAnimationFrame(update);
+      else {
+        const fp = targetNPS > 0 ? '+' : '';
+        el.textContent = fp + targetNPS;
+      }
+    }
+    requestAnimationFrame(update);
+  }
+  // Highlight zona NPS yang aktif
+  function highlightNPSZone(nps) {
+    const zoneMap = [
+      { id: 'nps-bad',   min: -100, max: -1  },
+      { id: 'nps-ok',    min: 0,    max: 29  },
+      { id: 'nps-good',  min: 30,   max: 69  },
+      { id: 'nps-great', min: 70,   max: 100 }
+    ];
+    document.querySelectorAll('.nps-zone').forEach((el, i) => {
+      const zone = zoneMap[i];
+      if (zone && nps >= zone.min && nps <= zone.max) {
+        el.style.outline     = '2px solid currentColor';
+        el.style.outlineOffset = '1px';
+        el.style.fontWeight  = '800';
+        el.style.transform   = 'scaleY(1.1)';
+      } else {
+        el.style.outline   = 'none';
+        el.style.transform = 'none';
+        el.style.fontWeight = '700';
+      }
+    });
+  }
+
 
   function animateCounter(id, from, to, decimals, suffix) {
     const el = document.getElementById(id);
