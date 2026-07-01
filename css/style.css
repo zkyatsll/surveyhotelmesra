@@ -220,6 +220,7 @@ body.swal2-shown {
   box-shadow: 0 25px 80px rgba(107,66,38,0.30) !important;
   position: relative !important;
   z-index: 100000 !important;
+  overflow: hidden !important;             /* agar progress bar ikut sudut membulat */
 }
 .swal2-title {
   font-family: var(--font) !important;
@@ -239,6 +240,7 @@ body.swal2-shown {
   box-shadow: 0 4px 15px rgba(107,66,38,0.35) !important;
 }
 .swal2-timer-progress-bar { background: var(--primary) !important; }
+.swal2-timer-progress-bar-container { border-radius: 0 0 var(--radius-xl) var(--radius-xl) !important; overflow: hidden !important; }
 
 /* ── Utilities ──────────────────────────────────────────────── */
 .text-center  { text-align:center; }
